@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to the To Do List</h1>
+
+    <a href="{{ url_for('add_entry') }}" class="btn">add a new item</a>
+
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item["what_to_do"] }}</td>
+            <td>{{ item["due_date"] }}</td>
+            <td>{{ item["status"] }}</td>
+            <td>
+                <a href="{{ url_for('mark_as_done', item=item['what_to_do']) }}" class="btn">mark as done</a>
+                <a href="{{ url_for('delete_entry', item=item['what_to_do']) }}" class="btn">delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form action="{{ url_for('add_entry') }}" method="post">
+        <input type="text" name="what_to_do" placeholder="What to do">
+        <input type="text" name="due_date" placeholder="When">
+        <input type="submit" class="btn" value="save the new item">
+        <a href="{{ url_for('show_list') }}" class="btn">cancel the new entry</a>
+    </form>
+
+    <a href="{{ url_for('logout') }}" class="btn">log out</a>
+    <a href="{{ url_for('exit_app') }}" class="btn">exit</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to the To Do List</h1>
+
+    <a href="{{ url_for('add_entry') }}" class="btn">add a new item</a>
+
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item["what_to_do"] }}</td>
+            <td>{{ item["due_date"] }}</td>
+            <td>{{ item["status"] }}</td>
+            <td>
+                <a href="{{ url_for('mark_as_done', item=item['what_to_do']) }}">mark as done</a>
+                <a href="{{ url_for('delete_entry', item=item['what_to_do']) }}">delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form action="{{ url_for('add_entry') }}" method="post">
+        <input type="text" name="what_to_do" placeholder="What to do">
+        <input type="text" name="due_date" placeholder="When">
+        <input type="submit" value="save the new item">
+        <a href="{{ url_for('show_list') }}">cancel the new entry</a>
+    </form>
+
+    <a href="{{ url_for('logout') }}" class="btn">log out</a>
+    <a href="{{ url_for('exit_app') }}" class="btn">exit</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+</html> -->
